@@ -1,4 +1,71 @@
 unity-notes
 ===========
 
-A simple repo to hold my unity notes
+A simple repo to hold my unity notes.
+
+
+
+Static checkbox on game object (different than static colliders) will do the following
+    tells unity the game object wont move and can then be light mapped
+    preparing static geometry for automatic batching (pro)
+    calculating Occlusion Culling (pro)
+    
+
+GUI Text has 0,0 at the bottom left rather than the top right of the screen
+
+Unity uses the Left hand rule (rather than the right hand rule) for stuff. Wierd huh?
+
+Vectors use floats not doubles it seems
+
+Use GetButton so you can specify general names for the buttons and then assign specific keys/inputs to those names
+
+GetComponent() is expensive, if you have to use it then try to use it only once in the Awake() or Start()
+
+Vector3 and Quaternion are Value types and not Reference types in Unity
+
+Instantiate is a function used to create clones of a prefab. So for instance the rockets of a gun :)
+
+Invoke() and InvokeRepeating() let you call a void no parameter function later in time
+
+
+Physics Notes:
+
+Character Controllers are an alternative to colliders. So a gameObject with a character controller does not have a collider and is not part of the phsyics.
+
+Any object that moves in the game and has a collider should be given a rigid body. If the object moves but should not be affected by physics interactions then make that object kinematic.
+
+If a game object has a collider, but does not have a rigid body then it is considered static. Static objects should never move, if you do move it then every static object in the game would have to be recalculated. So dont move them!
+
+Kinematic Rigidbody Colliders should be moved by modifying the Transform component rather than by using forces, since forces no longer apply to it (since its kinematic).
+
+For 2D games (this is probably the same for 3D games) when we have two rigid body/collider/kinetic game objects they won't collide with each other. So we need to make one of the game objects not kinetic so collision will occur. So it makes sense for walls to be rigid body/collider/kinetic (or just a collider if the wall is nonmoving) since they will never move when collided with the player and for the player to be rigid body/collider. And we should move the player with rigidbody2D.velocity so we can instantly move him the amount we want. However this still leaves the question for how moving npcs (like animals, enemies, towns people) should be set up. We want them to collide with non moving parts of the environment like the walls as well so they need to be rigid body/collider, but now we have a problem that if the player walks into them they will both move from the collision.
+	Possible ideas is to just allow it so that player/npc collisions do result in movement since it could look and feel natural enough and not be annoying
+	Or to make the npcs be rigid body/collider/kinetic and just make sure we never tell them to move into walls and places they cant be.
+	Or figure out how to detect a player/npc collision and just nullify the physics result when it happens so it wont be a problem.
+	I think I've found a possible solution to this problem I could have two game objects with colliders on player but with different layers. So I can have an environment collider on a game object whose layer only collides with the environment and not npcs. And I can have an environment collider which is a trigger and whose later interacts with npcs and such. This way they can still take damage and not walk through walls.
+
+Useful page on colliders (scroll down to the general info nonspecific to mesh colliders)
+	http://docs.unity3d.com/412/Documentation/Components/class-MeshCollider.html
+	http://docs.unity3d.com/412/Documentation/Components/LayerBasedCollision.html
+
+When you call rigidbody2D.addForce with a force (I assume this also holds true for the normal rigidbody) then it will apply the force for only that step/frame of the game. So if you stop calling it the next frame then the rigidbody will no longer have the force applied, but it most likely will still have some velocity from when the force was applied in the previous frame so it will still be moving unless drag stops it.
+When you call addForce with an impulse then it will instantly apply the velocity change equivalent to the force applied during 1 second. Mass and gravity will be taken into account in that one frame.
+When you call addForce with an acceleration it will apply the acceleration for only that step/frame of the game. So if you stop calling it the next frame then the rigidbody will no longer be accelerating, but will likely still have a velocity and will still be moving. This change in acceleration does not take into account the rigidbody's mass.
+When you call addForce with a velocityChange it will instantly apply the change in velocity to the rigidbody. It does not take into account the rigidbody's mass.
+
+If I want a child game object to have a rigid body when its parent game object already has a rigid body, then I need to make the child kinematic for it to act properly. Since child game objects mean they are position relative to the parent game object unity acts all funky when both the parent and the child have rigid bodies because rigid bodies means its a part of the physics system of the world. And each rigid body in the physics system is supposed to be a single object in the physics world, meaning it will deal with physics interactions for just itself and not relative to any other rigid body. And while this holds true So make the rigid body kinematic to make it not affected by the physics interaction. Alternative make the child game object not a child and connect the two rigid bodies with a joint. (I'm not 100% sure if my above explaination is completely correct but it seems close enough)
+	
+
+Animation Note:
+The sample number in the animation view sets how many ticks on the animation timeline there will be for every second. So a sample of 5 will put 5 ticks on the timeline per second making each tick worth 200ms of time. Similarly a sample of 60 will have 60 ticks on the timeline per second (which is useful for 60 fps animations). 
+
+You don't need to end an animation on a whole second. For instance the moving animation for my mouse has 4 frame each frame should last 200ms. So I set the sample to 5 so each tick is worth 200ms, but I only put 4 frames on the timeline. So the animation ends (or repeats) after only 4 ticks or 800ms which is fine!
+
+To pause an animatior I can use the speed property.
+anim.speed = 0; //paused
+anim.speed = 1; //playing at normal speed
+
+You can change the 2D collider on animation key frames when the record circle is on for an animation. (I assume this also holds true for other game object properties and for 3D colliders)
+
+
+Depth in Unity 2D - add a depth script to all the game objects so that their z-position or sorting layer (this is different then the nomral unity layers) is changed based on their y-position. This will ensure that the lower y-position is on top. Then for objects you can go behind partially you make the collider only cover the parts of the object you cannot go behind (usually the lower parts). If for some extreme scenario the center point of an object will have a lower center point of an object that is in front of it you can instead use y position of the first object's "feet" (or whatever is the bottom of the first object).
