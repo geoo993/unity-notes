@@ -47,6 +47,8 @@ When you call addForce with an acceleration it will apply the acceleration for o
 When you call addForce with a velocityChange it will instantly apply the change in velocity to the rigidbody. It does not take into account the rigidbody's mass.
 
 If I want a child game object to have a rigid body when its parent game object already has a rigid body, then I need to make the child kinematic for it to act properly. Since child game objects mean they are position relative to the parent game object unity acts all funky when both the parent and the child have rigid bodies because rigid bodies means its a part of the physics system of the world. And each rigid body in the physics system is supposed to be a single object in the physics world, meaning it will deal with physics interactions for just itself and not relative to any other rigid body. And while this holds true So make the rigid body kinematic to make it not affected by the physics interaction. Alternative make the child game object not a child and connect the two rigid bodies with a joint. (I'm not 100% sure if my above explaination is completely correct but it seems close enough)
+
+You can have a GameObject with just a rigidbody and no collider evidently and you can still move that object around with forces and such.
 	
 
 Animation Note:
