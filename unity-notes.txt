@@ -62,3 +62,6 @@ You can change the 2D collider on animation key frames when the record circle is
 
 
 Depth in Unity 2D - add a depth script to all the game objects so that their z-position or sorting layer (this is different then the nomral unity layers) is changed based on their y-position. This will ensure that the lower y-position is on top. Then for objects you can go behind partially you make the collider only cover the parts of the object you cannot go behind (usually the lower parts). If for some extreme scenario the center point of an object will have a lower center point of an object that is in front of it you can instead use y position of the first object's "feet" (or whatever is the bottom of the first object).
+
+
+Changes to a Texture2D (with SetPixel() and Apply() and such) remain even after I stop playing my game in the unity editor. They don't clear until I close the unity editor and restart it. So to avoid this I must Instantiate a clone of the texture on the material (and set it back to the material) before I modify the texture.
