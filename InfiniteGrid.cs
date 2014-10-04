@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 /**
  * This class will create an infinite grid in the x/y directions for a camera using perspective.
+ * Put this class on your camera.
  */
 public class InfiniteGrid : MonoBehaviour { 
 	
