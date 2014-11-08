@@ -30,6 +30,8 @@ These shaders are expensive to render.
 
 Vertex and Fragment Shaders will be required, if your shader doesn’t need to interact with lighting, or if you need some very exotic effects that the surface shaders can’t handle. Shader programs written this way are the most flexible way to create the effect you need (even surface shaders are automatically converted to a bunch of vertex and fragment shaders), but that comes at a price: you have to write more code and it’s harder to make it interact with lighting. These shaders are written in Cg/HLSL as well.
 
+These are the normal kind of shaders that I am familiar with for graphics programming.
+
 ### Fixed Function Shaders
 
 Fixed Function Shaders need to be written for old hardware that doesn’t support programmable shaders. You will probably want to write fixed function shaders as an n-th fallback to your fancy fragment or surface shaders, to make sure your game still renders something sensible when run on old hardware or simpler mobile platforms. Fixed function shaders are entirely written in a language called ShaderLab, which is similar to Microsoft’s .FX files or NVIDIA’s CgFX.
