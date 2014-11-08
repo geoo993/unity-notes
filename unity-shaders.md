@@ -35,3 +35,9 @@ These are the normal kind of shaders that I am familiar with for graphics progra
 ### Fixed Function Shaders
 
 Fixed Function Shaders need to be written for old hardware that doesn’t support programmable shaders. You will probably want to write fixed function shaders as an n-th fallback to your fancy fragment or surface shaders, to make sure your game still renders something sensible when run on old hardware or simpler mobile platforms. Fixed function shaders are entirely written in a language called ShaderLab, which is similar to Microsoft’s .FX files or NVIDIA’s CgFX.
+
+## Vertex/Fragment shaders in Unity
+
+When writing the vertex/fragment kind of shader in Unity there is an Interface part that handles everything that connects your shader to Unity. The Interface part also has Properties so you can change the shader from the unity UI.
+
+And of course there will be a Vertex Shader part and a Fragment Shader part
