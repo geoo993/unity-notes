@@ -54,3 +54,6 @@ Use lowest precision that is possible; this is especially important on mobile pl
 For colors and unit length vectors, use fixed.
 For others, use half if range and precision is fine; otherwise use float.
 On mobile platforms, the key is to ensure as much as possible stays in low precision in the fragment shader. On most mobile GPUs, applying swizzles to low precision (fixed/lowp) types is costly; converting between fixed/lowp and higher precision types is quite costly as well.
+
+## SubShader
+Each Unity Shader will have a list of SubShaders and when the game runs Unity will pick one of the SubShaders to use based on which platform the game is currently running on (Android, Xbox, PC, etc).
