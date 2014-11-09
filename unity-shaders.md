@@ -57,3 +57,6 @@ On mobile platforms, the key is to ensure as much as possible stays in low preci
 
 ## SubShader
 Each Unity Shader will have a list of SubShaders and when the game runs Unity will pick one of the SubShaders to use based on which platform the game is currently running on (Android, Xbox, PC, etc).
+
+## Pass
+A SubShader can have multiple passes, so that the object the shader is on will render once for each pass in the SubShader.
