@@ -1,0 +1,3 @@
+The following Regex did not work Android and Mac but worked fine on windows:
+
+Regex.Match(fileNames[i], @"\d+").Value
