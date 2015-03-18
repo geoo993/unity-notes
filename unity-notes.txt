@@ -31,11 +31,8 @@ If a game object has a collider, but does not have a rigid body then it is consi
 
 Kinematic Rigidbody Colliders should be moved by modifying the Transform component rather than by using forces, since forces no longer apply to it (since its kinematic).
 
-For 2D games (this is probably the same for 3D games) when we have two rigid body/collider/kinetic game objects they won't collide with each other. So we need to make one of the game objects not kinetic so collision will occur. So it makes sense for walls to be rigid body/collider/kinetic (or just a collider if the wall is nonmoving) since they will never move when collided with the player and for the player to be rigid body/collider. And we should move the player with rigidbody2D.velocity so we can instantly move him the amount we want. However this still leaves the question for how moving npcs (like animals, enemies, towns people) should be set up. We want them to collide with non moving parts of the environment like the walls as well so they need to be rigid body/collider, but now we have a problem that if the player walks into them they will both move from the collision.
-	Possible ideas is to just allow it so that player/npc collisions do result in movement since it could look and feel natural enough and not be annoying
-	Or to make the npcs be rigid body/collider/kinetic and just make sure we never tell them to move into walls and places they cant be.
-	Or figure out how to detect a player/npc collision and just nullify the physics result when it happens so it wont be a problem.
-	I think I've found a possible solution to this problem I could have two game objects with colliders on player but with different layers. So I can have an environment collider on a game object whose layer only collides with the environment and not npcs. And I can have an environment collider which is a trigger and whose later interacts with npcs and such. This way they can still take damage and not walk through walls.
+For 2D games (this is probably the same for 3D games) when we have two rigid body/collider/kinetic game objects they won't collide with each other. So we need to make one of the game objects not kinetic so collision will occur. So it makes sense for walls to be rigid body/collider/kinetic (or just a collider if the wall is nonmoving) since they will never move when collided with the player and for the player to be rigid body/collider. And we should move the player with rigidbody2D.velocity so we can instantly move him the amount we want. However this still leaves the question for how moving npcs (like animals, enemies, towns people) should be set up. Look below (far below) for what I came up with.
+
 
 Useful page on colliders (scroll down to the general info nonspecific to mesh colliders)
 	http://docs.unity3d.com/412/Documentation/Components/class-MeshCollider.html
@@ -67,3 +64,12 @@ Depth in Unity 2D - add a depth script to all the game objects so that their z-p
 
 
 Changes to a Texture2D (with SetPixel() and Apply() and such) remain even after I stop playing my game in the unity editor. They don't clear until I close the unity editor and restart it. So to avoid this I must Instantiate a clone of the texture on the material (and set it back to the material) before I modify the texture.
+
+
+
+
+Getting the kind of movement and collision interactions I expect:
+In Unity 2D do one of the follower for EVERY game bit that can move and collide (note I'm not using kinematic at all):
+	RigidBodies with max linear drag, fixed angle, and moveposition for movement.
+	RigidBodies with 0 linear drag, fixed angle, and velocity for movement but when not moving must set velocity to 0 so physics forces dont move it about.
+For Unity 3D I imagine that I must do something similar but with 3D drag or Freeze Constraints (or with velocity always being set by the game object)
