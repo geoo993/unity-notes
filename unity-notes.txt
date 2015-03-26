@@ -73,3 +73,8 @@ In Unity 2D do one of the follower for EVERY game bit that can move and collide 
 	RigidBodies with max linear drag, fixed angle, and moveposition for movement.
 	RigidBodies with 0 linear drag, fixed angle, and velocity for movement but when not moving must set velocity to 0 so physics forces dont move it about.
 For Unity 3D I do the same similar thing but with 3D drag and Freeze Constraints (or with velocity always being set by the game object)
+
+
+IMPORTANT!
+Keep Input button checking for a press inside Update() and not in FixedUpdate! When I spam the button fixed update doesnt get all of the button presses.
+Basically only have my movement logic in FixedUpdate() (if im using a rigidbody to move with) and nothing else to be safe.
