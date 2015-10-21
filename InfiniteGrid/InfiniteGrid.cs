@@ -8,22 +8,19 @@ using System.Collections.Generic;
  */
 public class InfiniteGrid : MonoBehaviour { 
 	
-	public bool show = true;
+	public bool show = true; 
 	
 	public float cellSize = 1;
 
 	public float zPosition = 0;
-	
-	public Color color = new Color(0f,1f,0f,1f);
-
 
 	private float[] getGridBounds() {
 		float distToGrid = zPosition - transform.position.z;
 
-		float angle = (camera.fieldOfView / 2) * Mathf.Deg2Rad;
+		float angle = (GetComponent<Camera>().fieldOfView / 2) * Mathf.Deg2Rad;
 
 		float halfHeight = Mathf.Tan (angle) * distToGrid;
-		float halfWidth = camera.aspect * halfHeight;
+		float halfWidth = GetComponent<Camera>().aspect * halfHeight;
 
 		float[] bounds = new float[4];
 
@@ -42,29 +39,7 @@ public class InfiniteGrid : MonoBehaviour {
 		return bounds;
 	}
 
-	private IDictionary<Color, Material> materialsByColor = new Dictionary<Color, Material>();
-	private Material GetLineMaterial(Color color)
-	{
-		Material lineMaterial;
-		if( !materialsByColor.TryGetValue(color, out lineMaterial) ) 
-		{
-			lineMaterial = new Material( "Shader \"Lines/Colored Blended\" {" +
-			                            " Properties { _Color (\"Main Color\", Color) = ("+color.r+","+color.g+","+color.b+","+color.a+") } " +
-			                            " SubShader { Pass { " +
-			                            " Blend SrcAlpha OneMinusSrcAlpha " +
-			                            " ZWrite Off Cull Off Fog { Mode Off } " +
-			                            " Color[_Color] " +
-			                            " BindChannels {" +
-			                            " Bind \"vertex\", vertex Bind \"color\", color }" +
-			                            "} } }" );
-			
-			lineMaterial.hideFlags = HideFlags.HideAndDontSave;
-			lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
-			
-			materialsByColor.Add(color, lineMaterial);
-		}
-		return lineMaterial;
-	}
+    public Material lineMat;
 	
 	void OnPostRender() 
 	{
@@ -72,7 +47,7 @@ public class InfiniteGrid : MonoBehaviour {
 		
 		if(show)
 		{
-			Material lineMaterial = GetLineMaterial(color);
+			Material lineMaterial = lineMat;
 			lineMaterial.SetPass( 0 );
 
 			float[] bounds = getGridBounds ();
