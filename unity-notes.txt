@@ -78,3 +78,18 @@ For Unity 3D I do the same similar thing but with 3D drag and Freeze Constraints
 IMPORTANT!
 Keep Input button checking for a press inside Update() and not in FixedUpdate! When I spam the button fixed update doesnt get all of the button presses.
 Basically only have my movement logic in FixedUpdate() (if im using a rigidbody to move with) and nothing else to be safe.
+
+
+Useful Unity Assets:
+LeanTween
+https://www.assetstore.unity3d.com/en/#!/content/3595
+
+ProBuilder Basic
+https://www.assetstore.unity3d.com/en/#!/content/11919
+
+
+A Gentle Intro to Shaders in Unity3D
+http://www.alanzucconi.com/2015/06/10/a-gentle-introduction-to-shaders-in-unity3d/
+
+Fixing the gaps on unity 2D sprites 
+http://nielson.io/2015/10/fixing-gaps-between-sprites-better-2d-in-unity-part-2/
