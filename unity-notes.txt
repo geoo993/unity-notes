@@ -93,3 +93,9 @@ http://www.alanzucconi.com/2015/06/10/a-gentle-introduction-to-shaders-in-unity3
 
 Fixing the gaps on unity 2D sprites 
 http://nielson.io/2015/10/fixing-gaps-between-sprites-better-2d-in-unity-part-2/
+
+Standard Assets built into Unity
+Character Movement (has useful prebuilt rigidbody based character controllers and the code is useful to look at to roll your own (for instance for seeing how they get the ground normal))
+Particle Systems (this whole package is useful basically, the particals just look right by default)
+Environment, Terrain, Texture (only need the basic environment textures for prototyping terrains)
+Utility (only need the Open Sans font)
