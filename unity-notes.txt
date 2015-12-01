@@ -102,4 +102,6 @@ Utility (only need the Open Sans font)
 
 
 http://docs.unity3d.com/Manual/ExecutionOrder.html
-	(Useful but unfortunately not accurate. yield WaitForFixedUpdate() happens after the internal physics update :/ (rather than before as it says) )
+	Useful but unfortunately not accurate. 
+		yield WaitForFixedUpdate() happens after the internal physics update :/ (rather than before as it says)
+		I noticed that FixedUpdate() from one script could fire before the Start() of another script on the same GameObject (but the same thing was not happening with Update()). I should mention that the objects were created with Instantiate().
