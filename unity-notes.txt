@@ -102,3 +102,4 @@ Utility (only need the Open Sans font)
 
 
 http://docs.unity3d.com/Manual/ExecutionOrder.html
+	(Useful but unfortunately not accurate. yield WaitForFixedUpdate() happens after the internal physics update :/ (rather than before as it says) )
