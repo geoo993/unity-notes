@@ -99,3 +99,6 @@ Character Movement (has useful prebuilt rigidbody based character controllers an
 Particle Systems (this whole package is useful basically, the particals just look right by default)
 Environment, Terrain, Texture (only need the basic environment textures for prototyping terrains)
 Utility (only need the Open Sans font)
+
+
+http://docs.unity3d.com/Manual/ExecutionOrder.html
