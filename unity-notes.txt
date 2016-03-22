@@ -31,6 +31,8 @@ If a game object has a collider, but does not have a rigid body then it is consi
 
 Kinematic Rigidbody Colliders should be moved by modifying the Transform component rather than by using forces, since forces no longer apply to it (since its kinematic).
 
+Trying to use a Kinematic Rigidbody for a player controlled game object is largely useless (because kinematic rigidbodies only collide with non constrained regular rigidbodies. So a kinematic rigidbody would just pass through any attempt at making a wall (or push the wall if you tried to give it an infinite mass)).
+
 For 2D games (this is probably the same for 3D games) when we have two rigid body/collider/kinetic game objects they won't collide with each other. So we need to make one of the game objects not kinetic so collision will occur. So it makes sense for walls to be rigid body/collider/kinetic (or just a collider if the wall is nonmoving) since they will never move when collided with the player and for the player to be rigid body/collider. And we should move the player with rigidbody2D.velocity so we can instantly move him the amount we want. However this still leaves the question for how moving npcs (like animals, enemies, towns people) should be set up. Look below (far below) for what I came up with.
 
 
@@ -47,8 +49,9 @@ If I want a child game object to have a rigid body when its parent game object a
 
 You can have a GameObject with just a rigidbody and no collider evidently and you can still move that object around with forces and such.
 
-Rigidbody.MovePosition() and Rigidbody.MoveRotation() require that the Rigidbody isKinematic and that it has Interpolation turned on otherwise it will just teleport to the new position/rotation. 
-So interpolation is useless it seems unless the rigidbody is kinematic (and in fact I was having jittery camera problems when interpolation was turned on for a non kinematic rigidbody (though you'd think it would do nothing)), but at the same time the official Unity collision detection matrix says that kinematic rigidbodies will only have collisions with plain rigidbodies (not plain colliders or other kinematic rigidbodies). So it means using kinematic on a player controlled game object would be nearly useless, since there would be no way to create walls that the rigidbody could interact with (I tried a heavy mass but kinematic rigidbody just pushed the wall away like normal. I assume because kinematics ignore the physical properties of the rigidbodies they collide with). SOOOO very useless.
+Rigidbody.MovePosition() and Rigidbody.MoveRotation() require that the Rigidbody isKinematic and that it has Interpolation turned on otherwise it will just teleport to the new position/rotation. So do not forget that they will usually not interpolate a rigidbody (unless the rigidbody is kinematic).
+
+To make a rigidbody use interpolation correctly I must use velocity and angularVelocity respectively (or other physics functions like AddForce()) and of course I need to turn on interpolation for the rigidbody. If I use position, rotation, MovePosition() or MoveRotation() then the rigidbody will not interpolate. And I noticed on my ThirdPersonUnit that when I was moving with velocity and rotating with MoveRotation() that I would get a jittery camera (I assume because the position was being interpolated but the rotation was not).
 	
 
 Animation Note:
